@@ -1,0 +1,26 @@
+# Rust build files
+target/
+
+# Rust formatter backups
+**/*.rs.bk
+
+# Windows debug symbols
+*.pdb
+
+# RustRover / JetBrains IDEs
+.idea/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
