@@ -2,6 +2,28 @@ use assert_cmd::cargo::*;
 use predicates::prelude::*;
 
 #[test]
+fn missing_second_argument() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = cargo_bin_cmd!("rustrack");
+
+    cmd.arg("foo");
+    cmd.assert().failure().stderr(predicate::str::contains(
+        "the following required arguments were not provided:\n  <TARGET_APTH>",
+    ));
+
+    Ok(())
+}
+
+#[test]
+fn missing_both_arguments() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = cargo_bin_cmd!("rustrack");
+
+    cmd.assert().failure().stderr(predicate::str::contains(
+        "the following required arguments were not provided:\n  <SOURCE_PATH>\n  <TARGET_APTH>",
+    ));
+
+    Ok(())
+}
+#[test]
 fn source_file_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
     let target = assert_fs::NamedTempFile::new("target.txt")?;
 
@@ -49,9 +71,7 @@ fn both_files_exist() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = cargo_bin_cmd!("rustrack");
 
     cmd.arg(source.path()).arg(target.path());
-    cmd.assert()
-        .success();
+    cmd.assert().success();
 
     Ok(())
 }
-
