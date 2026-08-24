@@ -1,4 +1,5 @@
 use assert_cmd::cargo::*;
+use assert_fs::prelude::FileWriteStr;
 use predicates::prelude::*;
 
 #[test]
@@ -67,6 +68,8 @@ fn both_files_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
 fn both_files_exist() -> Result<(), Box<dyn std::error::Error>> {
     let source = assert_fs::NamedTempFile::new("source.txt")?;
     let target = assert_fs::NamedTempFile::new("target.txt")?;
+    source.write_str("source")?;
+    target.write_str("target")?;
 
     let mut cmd = cargo_bin_cmd!("rustrack");
 
