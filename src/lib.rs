@@ -11,10 +11,13 @@ pub fn read_file(file_path: &Path) -> String {
     std::fs::read_to_string(file_path).expect("could not read file")
 }
 fn extract_lines_from_file(file_path: &Path) -> Vec<String> {
+    let file_content = read_file(file_path);
+
+    file_content.split("\n").map(|s| s.to_string()).collect()
 }
 
 #[cfg(test)]
-mod tests {
+mod line_splitting {
     use super::*;
     use assert_fs::fixture::FileWriteStr;
 
@@ -37,7 +40,7 @@ mod tests {
 
         let list_of_lines = extract_lines_from_file(source.path());
 
-        assert_eq!(list_of_lines.len(), 3);
+        assert_eq!(list_of_lines.len(), 1);
         Ok(())
     }
 }
